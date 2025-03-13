@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
+
 @NoArgsConstructor
 public class TwitterErrorResponse {
 
@@ -14,4 +14,10 @@ public class TwitterErrorResponse {
 private int status ;
 
 private long timestamp;
+
+    public TwitterErrorResponse(String message, int status, long timestamp) {
+        this.message = message;
+        this.status = status;
+        this.timestamp = timestamp;
+    }
 }

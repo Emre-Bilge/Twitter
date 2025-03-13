@@ -24,7 +24,7 @@ public class ReTweetImpl implements ReTweetService{
     @Override
     public ReTweet reTweet(ReTweet reTweet) {
 
-        Optional<ReTweet> optionalReTweet = reTweetRepository.findTweetByUserIdByTweetId(reTweet.getUser().getId(),reTweet.getTweet().getId());
+        Optional<ReTweet> optionalReTweet = reTweetRepository.findTweetByUserIdAndTweetId(reTweet.getUser().getId(),reTweet.getTweet().getId());
 
         if(optionalReTweet.isEmpty()){
             throw new ReTweetNotFoundException("böyle bir tweet yok" , HttpStatus.NOT_FOUND);
@@ -38,7 +38,7 @@ public class ReTweetImpl implements ReTweetService{
     @Override
     public void deleteReTweet(long userId , long tweetId) {
 
-    Optional<ReTweet> optionalReTweet = reTweetRepository.findTweetByUserIdByTweetId(userId , tweetId);
+    Optional<ReTweet> optionalReTweet = reTweetRepository.findTweetByUserIdAndTweetId(userId , tweetId);
     if(optionalReTweet.isEmpty()){
         throw new ReTweetNotFoundException("böyle bir retweet yok " , HttpStatus.NOT_FOUND);
     }

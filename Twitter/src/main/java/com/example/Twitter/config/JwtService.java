@@ -18,11 +18,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@RequiredArgsConstructor
+
 @Service
 public class JwtService {
 
     private JwtProperties jwtProperties;
+
+    public JwtService(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+    }
+
 
     // claim'i token'dan çıkarma işlemi
     public String extractUsername(String token) {

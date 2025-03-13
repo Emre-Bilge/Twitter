@@ -44,7 +44,7 @@ public class TweetServiceImpl implements TweetService{
         Tweet foundTweet = findTweetByTweetId(tweet.getId());
 
         boolean isTweetOwner = foundTweet.getUser().getId().equals(user.getId());
-        boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getAuthority().equals("ADMIN"));
+        boolean isAdmin = user.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ADMIN"));
        if(isTweetOwner || isAdmin){
            foundTweet.setContent(tweet.getContent());
          return tweetRepository.save(foundTweet);
@@ -58,7 +58,7 @@ public class TweetServiceImpl implements TweetService{
         Tweet tweet = findTweetByTweetId(tweetId);
 
         boolean isTweetOwner = tweet.getUser().getId().equals(user.getId());
-        boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getAuthority().equals("ADMIN"));
+        boolean isAdmin = user.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ADMIN"));
 
         if (!isTweetOwner && !isAdmin) {
 throw new TweetNotFoundException("bu kullanıcı bu tweeti silemez",HttpStatus.FORBIDDEN);

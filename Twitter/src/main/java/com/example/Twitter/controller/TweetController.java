@@ -14,8 +14,8 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/retweets")
-@CrossOrigin(origins = "http://localhost:3200")
+@RequestMapping("/tweets")
+//@CrossOrigin(origins = "http://localhost:3202") artık Cors içinde yönetiyoruz
 public class TweetController {
 
 private TweetService tweetService;

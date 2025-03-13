@@ -17,6 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 
 @Configuration
@@ -48,9 +53,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
-return httpSecurity.csrf(AbstractHttpConfigurer::disable)
+return httpSecurity
+        .cors(corsConfigurationSource())// JWT filtresini ekle
+        .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> {
             auth.requestMatchers("/").permitAll();
+            auth.requestMatchers("/register").permitAll();
             auth.requestMatchers("/tweets/**").authenticated();
             auth.requestMatchers("/comments/**").authenticated();
             auth.requestMatchers("/retweets/**").authenticated();
@@ -58,8 +66,24 @@ return httpSecurity.csrf(AbstractHttpConfigurer::disable)
        // .formLogin(Customizer.withDefaults())   --> jwt kullandıgım için bunları kaldırıyorum
         // .httpBasic(Customizer.withDefaults())
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // JWT'de session kullanılmaz
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // JWT filtresini ekle
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
         .build();
+        }
+
+
+        // Cors hatası için ekledi
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
+            CorsConfiguration configuration = new CorsConfiguration();
+            configuration.setAllowedOrigins(List.of("http://localhost:3202"));
+            configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            configuration.setAllowedHeaders(List.of("*"));
+            configuration.setAllowCredentials(true);  // **Burası önemli!**
+
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            source.registerCorsConfiguration("/**", configuration);
+            return source;
         }
     }
 

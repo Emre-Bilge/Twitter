@@ -7,20 +7,18 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
-import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="user" , schema = "twitter")
+@Table(name="user" , schema ="twitter")
 public class User implements UserDetails {
 
     @Id
@@ -41,9 +39,7 @@ private Long id;
         private String password ;
 
     @Column(name="first_name")
-    @NotNull(message = "boş bırakılamaz")
-    @NotBlank(message = "boş bırakılamaz")
-    @Size(min = 3 , max = 50 , message = "3 ile 50 karatkter arasında olmalıdır")
+
     private String firstName;
 
     @Column(name="last_name")
@@ -109,9 +105,6 @@ private Set<Like> likes = new HashSet<>();
         return true;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -125,24 +118,12 @@ private Set<Like> likes = new HashSet<>();
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public void setEmail(String email) {
@@ -153,35 +134,51 @@ private Set<Like> likes = new HashSet<>();
         this.authorities = authorities;
     }
 
-    public Authentication getAuthentication() {
-        return authentication;
-    }
-
     public void setAuthentication(Authentication authentication) {
         this.authentication = authentication;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
     }
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
-    public Set<Tweet> getTweets() {
-        return tweets;
-    }
-
     public void setTweets(Set<Tweet> tweets) {
         this.tweets = tweets;
     }
 
-    public Set<Like> getLikes() {
-        return likes;
-    }
-
     public void setLikes(Set<Like> likes) {
         this.likes = likes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Authentication getAuthentication() {
+        return authentication;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public Set<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public Set<Like> getLikes() {
+        return likes;
     }
 }

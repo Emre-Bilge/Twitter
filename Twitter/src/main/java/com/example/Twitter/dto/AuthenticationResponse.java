@@ -13,12 +13,20 @@ import lombok.NoArgsConstructor;
 public class AuthenticationResponse {
 
 private String accessToken;
-
 private String refreshToken;
 
 @Builder.Default
 private String tokenType = "Bearer";
 
 
+    public AuthenticationResponse(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 
+    public AuthenticationResponse(String accessToken, String refreshToken, String tokenType) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.tokenType = tokenType;
+    }
 }

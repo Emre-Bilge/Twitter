@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/likes")
-@CrossOrigin(origins = "http://localhost:3200")
+//@CrossOrigin(origins = "http://localhost:3202") artık Cors içinde yönetiyoruz
 public class LikeController {
 
     private LikeService likeService;

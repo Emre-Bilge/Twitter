@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/comments")
-@CrossOrigin(origins = "http://localhost:3200")
+//@CrossOrigin(origins = "http://localhost:3202") artık Cors içinde yönetiyoruz
 public class CommentController {
 
    private CommentService commentService;

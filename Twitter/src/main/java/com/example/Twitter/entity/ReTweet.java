@@ -25,4 +25,28 @@ private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tweet_id")
 private Tweet tweet ;
+
+    public long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Tweet getTweet() {
+        return tweet;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTweet(Tweet tweet) {
+        this.tweet = tweet;
+    }
 }

@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Authorization başlığındaki token'ı al
         final String authHeader = request.getHeader("Authorization");
-      //  log.debug("Auth header: {}", authHeader);
+       //log.debug("Auth header: {}", authHeader);
 
         // Eğer authHeader null veya "Bearer " ile başlamıyorsa, geçerli bir token yok
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

@@ -9,6 +9,7 @@ import com.example.Twitter.entity.User;
 import com.example.Twitter.repository.RoleRepository;
 import com.example.Twitter.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,17 +19,25 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
-@AllArgsConstructor
+
 @Service
+@Data
 public class AuthenticationService {
 
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private  UserRepository userRepository;
+    private  RoleRepository roleRepository;
+    private  PasswordEncoder passwordEncoder;
+    private  JwtService jwtService;
+    private  AuthenticationManager authenticationManager;
 
-
+    @Autowired
+    public AuthenticationService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+    }
 
 //register olma
 
@@ -38,6 +47,7 @@ public class AuthenticationService {
 
         Set<Role> roles = new HashSet<>();
 
+
 User user = new User();
 user.setUsername(registerRequest.getUsername());
 user.setEmail(registerRequest.getEmail());
@@ -46,13 +56,18 @@ user.setAuthorities(roles);
 
 userRepository.save(user);
 
-String accesToken = jwtService.generateAccessToken(user);
+String accessToken = jwtService.generateAccessToken(user);
 String refreshToken = jwtService.generateRefreshToken(user);
 
-return AuthenticationResponse.builder()
-        .accessToken(accesToken).refreshToken(refreshToken)
-        .tokenType("Bearer").build();
+    /*    AuthenticationResponse response = AuthenticationResponse.builder()
+                .accessToken(accesToken)
+                .refreshToken(refreshToken)
+                .build();
 
+
+        return response;*/
+
+        return new AuthenticationResponse(accessToken, refreshToken);
     }
 
 
@@ -68,12 +83,13 @@ authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 
 User user=userRepository.findByUsername(authenticationRequest.getUsername()).orElseThrow();
 
-String accesToken = jwtService.generateAccessToken(user);
+String accessToken = jwtService.generateAccessToken(user);
 String refreshToken = jwtService.generateRefreshToken(user);
 
 
 //builder kendisi oluşturuyor
-return AuthenticationResponse.builder().accessToken(accesToken).refreshToken(refreshToken)
-        .tokenType("Bearer").build();
+/*return AuthenticationResponse.builder().accessToken(accesToken).refreshToken(refreshToken)
+        .tokenType("Bearer").build();*/
+    return new AuthenticationResponse(accessToken, refreshToken, "Bearer");
 }
 }
